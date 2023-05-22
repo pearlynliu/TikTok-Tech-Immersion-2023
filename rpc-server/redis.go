@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/redis/go-redis/v9"
-	"time"
 )
 
 type RedisClient struct {
@@ -35,9 +34,10 @@ func (c *RedisClient) SaveMessage(ctx context.Context, roomID string, message *M
 	}
 
 	member := &redis.Z{
-		Score:  float64(time.Now().Unix()),
+		Score:  float64(message.Timestamp),
 		Member: text,
 	}
+
 	_, err = c.cli.ZAdd(ctx, roomID, *member).Result()
 	if err != nil {
 		return err
