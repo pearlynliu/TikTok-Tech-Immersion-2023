@@ -107,7 +107,8 @@ func validateSendRequest(req *rpc.SendRequest) error {
 func getRoomID(chat string) (string, error) {
 	var roomID string
 
-	senders := strings.Split(chat, ":")
+	lowercase := strings.ToLower(chat)
+	senders := strings.Split(lowercase, ":")
 	if len(senders) != 2 {
 		err := fmt.Errorf("invalid Chat ID '%s', should be in the format of user1:user2", chat)
 		return "", err
